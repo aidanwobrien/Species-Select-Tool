@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Decision Tree</title>
+    <style>
+
+        body {
+                    font-family: Arial, sans-serif;
+                }
+        /* Button styles */
+        button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Highlight style */
+        .highlight {
+            background-color: #4CAF50; /* Green background */
+            color: white; /* White text */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Species Selection Tool</h1>
+
+    <p>Is planting stock available?</p>
+    <button onclick="selectButton(this); showNoStockNode('yes')">Yes</button>
+    <button onclick="selectButton(this); showNoStockNode('no')">No</button>
+
+    <div id="result"></div>
+
+    <script>
+
+
+        function selectButton(button) {
+            // Remove highlight from all buttons in the same parent
+            const buttons = button.parentNode.querySelectorAll("button");
+            buttons.forEach(btn => btn.classList.remove("highlight"));
+            // Highlight the clicked button
+            button.classList.add("highlight");
+                }
+
+        function showNoStockNode(option) {
+            const result = document.getElementById("result");
+            result.innerHTML = ''; // Clear previous results
+
+            if (option === 'yes') {
+                result.innerHTML = `
+                    <p>Deep duff, litter or competition impeding planting?</p>
+                    <button onclick="selectButton(this); showDuff('yes')">Yes</button>
+                    <button onclick="selectButton(this); showDuff('no')">No</button>
+                    <div id="duffResult"></div>
+                `;
+            } else if (option === 'no') {
+                result.innerHTML = `
+                    <p>Original stand of trees pj or sb?</p>
+                    <button onclick="selectButton(this); showNoStock('yes')">Yes</button>
+                    <button onclick="selectButton(this); showNoStock('no')">No</button>
+                    <div id="noStockResult"></div>
+                `;
+            }
+        }
+
+        function showDuff(duff) {
+            const duffResult = document.getElementById("duffResult");
+            duffResult.innerHTML = `You selected: ${duff}`;
+
+            if (duff === 'yes') {
+                duffResult.innerHTML = `
+                    <p><b>Prepare site for planting</b></p>
+                    <p>Are the Soils Organic?</p>
+                    <button onclick="selectButton(this); showOrgSoil('yes')">Yes</button>
+                    <button onclick="selectButton(this); showOrgSoil('no')">No</button>
+                    <div id="orgSoilResult"></div>
+                `;
+            } else if (duff === 'no') {
+                duffResult.innerHTML = `
+                    <p>Are the soils organic?</p>
+                    <button onclick="selectButton(this); showOrgSoil('yes')">Yes</button>
+                    <button onclick="selectButton(this); showOrgSoil('no')">No</button>
+                    <div id="orgSoilResult"></div>
+                `;
+            }
+        }
+
+        function showOrgSoil(orgSoil) {
+            const orgSoilResult = document.getElementById("orgSoilResult");
+            orgSoilResult.innerHTML = `You selected: ${orgSoil}`;
+
+            if (orgSoil === 'yes') {
+                orgSoilResult.innerHTML = `
+                    <p>Is soil drainage poor?</p>
+                    <button onclick="selectButton(this); showDrainage('yes')">Yes</button>
+                    <button onclick="selectButton(this); showDrainage('no')">No</button>
+                    <div id="drainageResult"></div>
+                `;
+            } else {
+                orgSoilResult.innerHTML = `
+                    <p>Are the soils >30% sand?</p>
+                    <button onclick="selectButton(this); showSand('yes')">Yes</button>
+                    <button onclick="selectButton(this); showSand('no')">No</button>
+                    <div id="sandResult"></div>
+                `;
+            }
+        }
+
+        function showSand(sand) {
+            const sandResult = document.getElementById("sandResult");
+            sandResult.innerHTML = `You selected: ${sand}`;
+
+            if (sand === 'yes') {
+                sandResult.innerHTML = `
+                    <p>Soil drainage wet to rapid, soil moisture fresh to dry</p>
+                    <button onclick="selectButton(this); showYesDrain('yes')">Yes</button>
+                    <button onclick="selectButton(this); showYesDrain('no')">No</button>
+
+                    <div id="yesDrainResult"></div>
+                `;
+            } else if (sand === 'no') {
+                sandResult.innerHTML = `
+                    <p>Soil drainage wet to rapid, soil moisture fresh to dry</p>
+                    <button onclick="selectButton(this); showNoDrain('yes')">Yes</button>
+                    <button onclick="selectButton(this); showNoDrain('no')">No</button>
+
+                    <div id="noDrainResult"></div>
+                `;
+            }
+
+        }
+
+        function showYesDrain(yesdrain) {
+            const yesDrainResult = document.getElementById("yesDrainResult");
+            yesDrainResult.innerHTML = `You selected: ${yesdrain}`;
+
+            if (yesdrain === 'yes') {
+                yesDrainResult.innerHTML = `
+                    <p>What is your end goal?</p>
+                    <button onclick="selectButton(this); showYesSandyDrain('woodprod')">Wood Products</button>
+                    <button onclick="selectButton(this); showYesSandyDrain('wildlife')">Wildlife</button>
+                    <button onclick="selectButton(this); showYesSandyDrain('windbreak')">Windbreak</button>
+                    <div id="yesSandyDrainResult"></div>
+                `;
+            } else if (yesdrain === 'no') {
+                yesDrainResult.innerHTML = `
+                    <p>What is your end goal?</p>
+                    <button onclick="selectButton(this); showNoSandyDrain('woodprod')">Wood Products</button>
+                    <button onclick="selectButton(this); showNoSandyDrain('wildlife')">Wildlife</button>
+                    <button onclick="selectButton(this); showNoSandyDrain('windbreak')">Windbreak</button>
+                    <div id="noSandyDrainResult"></div>
+                `;
+            }
+
+        }
+    
+        function showNoDrain(nodrain) {
+            const noDrainResult = document.getElementById("noDrainResult");
+            noDrainResult.innerHTML = `You selected: ${nodrain}`;
+
+            if (nodrain === 'yes') {
+                noDrainResult.innerHTML = `
+
+                    <p>What is your end goal?</p>
+                    <button onclick="selectButton(this); showNoOrganicDrain('woodprod')">Wood Products</button>
+                    <button onclick="selectButton(this); showNoOrganicDrain('wildlife')">Wildlife</button>
+                    <button onclick="selectButton(this); showNoOrganicDrain('windbreak')">Windbreak</button>
+
+
+
+                    <div id="noOrganicDrainResult"></div>
+                `;
+            } else if (nodrain === 'no') {
+                noDrainResult.innerHTML = `
+                    <p>Is the site wet year round?</p>
+                    <button onclick="selectButton(this); showYesOrganicDrain('yes')">Yes</button>
+                    <button onclick="selectButton(this); showYesOrganicDrain('no')">No</button>
+                    <div id="yesOrganicDrainResult"></div>
+                `;
+            }
+
+        }
+
+        function showNoOrganicDrain(noorganicdrain) {
+            const noOrganicDrainResult = document.getElementById("noOrganicDrainResult");
+            noOrganicDrainResult.innerHTML = `You selected: ${noorganicdrain}`;
+
+            if (noorganicdrain === 'woodprod') {
+                noOrganicDrainResult.innerHTML = `
+                    <p>Aw, Hb, Mh, Mr, Ob, Or, Ow, Pw, Sb, Sr, Wb </p>
+
+                `;
+            } else if (noorganicdrain === 'wildlife') {
+                noOrganicDrainResult.innerHTML = `
+                    <p>Hb, Hs, La, Lb, Le, Ob, Pw, Sb, Sr, Wb</p>
+                `;
+            } else if (noorganicdrain === 'windbreak') {
+                noOrganicDrainResult.innerHTML = `
+                    <p>Ab, Cw, Pe, Sn</p>
+                `;
+            }
+
+        }
+
+        function showYesOrganicDrain(yesorganicdrain) {
+            const yesOrganicDrainResult = document.getElementById("yesOrganicDrainResult");
+            yesOrganicDrainResult.innerHTML = `You selected: ${yesorganicdrain}`;
+
+            if (yesorganicdrain === 'yes') {
+                yesOrganicDrainResult.innerHTML = `
+                    <p>Planting not recommended unless drained</p>
+
+                `;
+            } else if (yesorganicdrain === 'no') {
+                yesOrganicDrainResult.innerHTML = `
+                <p> What is your end goal? </p>
+                <button onclick="selectButton(this); showFinalResult('woodprod')">Wood Products</button>
+                <button onclick="selectButton(this); showFinalResult('wildlife')">Wildlife</button>
+                <button onclick="selectButton(this); showFinalResult('windbreak')">Windbreak</button>
+
+                <div id="finalResult"></div>
+                `;
+            }
+            
+        }
+
+        function showFinalResult(final) {
+            const finalResult = document.getElementById("finalResult");
+            finalResult.innerHTML = `You selected: ${finalResult}`;
+
+            if (final === 'woodprod') {
+                finalResult.innerHTML = `
+                    <p>Ms, Sb, Sw, Tp</p>
+
+                `;
+            } else if (final === 'wildlife') {
+                finalResult.innerHTML = `
+                    <p>Ch, Dr, He, Hs, La, Lb, Sn, Wl</p>
+                `;
+            } else if (final === 'windbreak') {
+                finalResult.innerHTML = `
+                    <p>Lb, Sw</p>
+                `;
+            }
+
+        }
+
+        function showYesSandyDrain(yessanddrain) {
+            const yesSandyDrainResult = document.getElementById("yesSandyDrainResult");
+            yesSandyDrainResult.innerHTML = `You selected: ${yessanddrain}`;
+
+            if (yessanddrain === 'woodprod') {
+                yesSandyDrainResult.innerHTML = `
+                    <p>Ag, Mh, Os, Os, Pj, Po, Pw, Pr </p>
+
+                `;
+            } else if (yessanddrain === 'wildlife') {
+                yesSandyDrainResult.innerHTML = `
+                    <p>Cw, Hk, La, Lb, Lj, Sn</p>
+                `;
+            } else if (yessanddrain === 'windbreak') {
+                yesSandyDrainResult.innerHTML = `
+                    <p>Cw, Po, Sn</p>
+                `;
+            }
+        }
+
+
+        function showNoSandyDrain(nosanddrain) {
+            const noSandyDrainResult = document.getElementById("noSandyDrainResult");
+            noSandyDrainResult.innerHTML = `You selected: ${nosanddrain}`;
+
+            if (nosanddrain === 'woodprod') {
+                noSandyDrainResult.innerHTML = `
+                    <p>Ab, La, Sb, Sr, Sw</p>
+
+                `;
+            } else if (nosanddrain === 'wildlife') {
+                noSandyDrainResult.innerHTML = `
+                    <p>Cw, Or, Hb, He, Nv, Wl</p>
+                `;
+            } else if (nosanddrain === 'windbreak') {
+                noSandyDrainResult.innerHTML = `
+                    <p>Cw, Sn</p>
+                `;
+            }
+        }
+
+        function showDrainage(drainage) {
+            const drainageResult = document.getElementById("drainageResult");
+            drainageResult.innerHTML = `You selected: ${drainage}`;
+
+            if (drainage === 'yes') {
+                drainageResult.innerHTML = `
+                    <p>What is your end goal?</p>
+                    <button onclick="selectButton(this); showPrefferedSpeciesYesDrain('woodprod')">Wood Products</button>
+                    <button onclick="selectButton(this); showPrefferedSpeciesYesDrain('wildlife')">Wildlife</button>
+                    <button onclick="selectButton(this); showPrefferedSpeciesYesDrain('windbreak')">Windbreak</button>
+                    <div id="prefferedSpeciesResultYesDrain"></div>
+                `;
+            } else if (drainage === 'no') {
+                drainageResult.innerHTML = `
+                    <p>What is your end goal?</p>
+                    <button onclick="selectButton(this); showPrefferedSpeciesNoDrain('woodprod')">Wood Products</button>
+                    <button onclick="selectButton(this); showPrefferedSpeciesNoDrain('wildlife')">Wildlife</button>
+                    <button onclick="selectButton(this); showPrefferedSpeciesNoDrain('windbreak')">Windbreak</button>
+                    <div id="prefferedSpeciesResultNoDrain"></div>
+                `;
+            }
+        }
+
+        function showPrefferedSpeciesYesDrain(yesdrain) {
+            const prefferedSpeciesResultYesDrain = document.getElementById("prefferedSpeciesResultYesDrain");
+            prefferedSpeciesResultYesDrain.innerHTML = `You selected: ${yesdrain}`;
+
+            if (yesdrain === 'woodprod') {
+                prefferedSpeciesResultYesDrain.innerHTML = `
+                    <p>La, Sb</p>
+
+                `;
+            } else if (yesdrain === 'wildlife') {
+                prefferedSpeciesResultYesDrain.innerHTML = `
+                    <p>Ab, Cw</p>
+                `;
+            } else if (yesdrain === 'windbreak') {
+                prefferedSpeciesResultYesDrain.innerHTML = `
+                    <p>Cw</p>
+                `;
+            }
+        }
+
+        function showPrefferedSpeciesNoDrain(nodrain) {
+            const prefferedSpeciesResultNoDrain = document.getElementById("prefferedSpeciesResultNoDrain");
+            prefferedSpeciesResultNoDrain.innerHTML = `You selected: ${nodrain}`;
+
+            if (nodrain === 'woodprod') {
+                prefferedSpeciesResultNoDrain.innerHTML = `
+                    <p>Ms, Sb</p>
+
+                `;
+            } else if (nodrain === 'wildlife') {
+                prefferedSpeciesResultNoDrain.innerHTML = `
+                    <p>Cw, He, Sb</p>
+                `;
+            } else if (nodrain === 'windbreak') {
+                prefferedSpeciesResultNoDrain.innerHTML = `
+                    <p>Cw</p>
+                `;
+            }
+        }
+
+
+        function showNoStock(noStock) {
+            const noStockResult = document.getElementById("noStockResult");
+            noStockResult.innerHTML = `You selected: ${noStock}`;
+
+            if (noStock === 'yes') {
+                noStockResult.innerHTML = `
+                    <p>Competition moderate to severe?</p>
+                    <button onclick="selectButton(this); showComp('no')">No</button>
+                    <button onclick="selectButton(this); showComp('yes')">Yes</button>
+                    <div id="compResult"></div>
+                `;
+            } else if (noStock === 'no') {
+                noStockResult.innerHTML = `
+                    <p>Natural Regeneration</p>
+                `;
+            }
+        }
+
+        function showComp(comp) {
+            const compResult = document.getElementById("compResult");
+            compResult.innerHTML = `You selected: ${comp}`;
+
+            if (comp === 'yes') {
+                compResult.innerHTML = `
+                    <p>Natural Regeneration</p>
+                `;
+            } else if (comp === 'no') {
+                compResult.innerHTML = `
+                    <p>Seed</p>
+                `;
+            }
+        }
+    </script>
+
+</body>
+</html>
