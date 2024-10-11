@@ -7,29 +7,83 @@
     <style>
 
         body {
-                    font-family: Arial, sans-serif;
-                }
-        /* Button styles */
-        button {
-            margin: 5px;
-            padding: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
         }
 
-        /* Highlight style */
-        .highlight {
-            background-color: #4CAF50; /* Green background */
-            color: white; /* White text */
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 20px;
         }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        /* Button styles */
+        button {
+            margin: 10px;
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #5b5b5b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #00cb47;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Highlight selected button */
+        .highlight {
+            background-color: #00cb47;
+            color: white;
+        }
+
+        /* Result display styling */
+        #result, #duffResult, #orgSoilResult, #drainageResult, #sandResult, 
+        #yesDrainResult, #noDrainResult, #finalResult, #yesSandyDrainResult, 
+        #noSandyDrainResult, #noOrganicDrainResult, #yesOrganicDrainResult {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 600px) {
+            button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+        }
+
     </style>
 </head>
 <body>
 
-    <h1>Species Selection Tool</h1>
+    <h1>Forests Ontario Species Selection Tool</h1>
 
     <p>Is planting stock available?</p>
     <button onclick="selectButton(this); showNoStockNode('yes')">Yes</button>
@@ -214,7 +268,7 @@
 
             if (yesorganicdrain === 'yes') {
                 yesOrganicDrainResult.innerHTML = `
-                    <p>Planting not recommended unless drained</p>
+                    <p><b>Planting not recommended unless drained</b></p>
 
                 `;
             } else if (yesorganicdrain === 'no') {
@@ -369,7 +423,7 @@
                 `;
             } else if (noStock === 'no') {
                 noStockResult.innerHTML = `
-                    <p>Natural Regeneration</p>
+                    <p><b>Natural Regeneration</b></p>
                 `;
             }
         }
@@ -380,11 +434,11 @@
 
             if (comp === 'yes') {
                 compResult.innerHTML = `
-                    <p>Natural Regeneration</p>
+                    <p><b>Natural Regeneration</b></p>
                 `;
             } else if (comp === 'no') {
                 compResult.innerHTML = `
-                    <p>Seed</p>
+                    <p><b>Seed</b></p>
                 `;
             }
         }
